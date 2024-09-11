@@ -16,7 +16,7 @@ export default function CancelledRoute() {
             <h3 className="text-lg leading-6 font-medium">Payment Failed</h3>
             <div className="mt-2">
               <p className="text-sm text-muted-foreground">
-                No worries, you won't be charge. Please try again
+                No worries, you wont be charge. Please try again
               </p>
             </div>
 

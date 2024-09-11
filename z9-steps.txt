@@ -420,4 +420,8 @@ Step 10: FIXING ERRORS OF REDIRECTION
   > Code: return_url: process.env.NODE_ENV === "production" ? (process.env.PRODUCTION_URL as string) : "http://localhost:3000/dashboard",
 
 Step 11: Updating vercel
-> Go to " settings/environment variables " and add the Production url.
+> Go to " settings/environment variables " and add the Production url key.
+> In the vscode clear everything and push the changes to github.
+  > Code Terminal: git add .
+  > Code Terminal: got commit -m "added new env"
+  > Code Terminal: git push
