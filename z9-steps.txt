@@ -356,7 +356,7 @@ Step 6: Create the new folder and file > app/dashboard/new/[id]/page.tsx <
 Step 7: Only with active subscription can create a note.
 > Go to page " app/dashboard/page.tsx " and update the code.
 
-PART X - DEPLOYING THE PROJECT
+PART X - DEPLOYING THE PROJECT TO GITHUB
 
 Step 1: Pre-deploying the Project
 > Go the the " Setting Page.tsx" update the code in line 24 (Next Cache) the import section the NoStore, then copy.
@@ -370,3 +370,54 @@ Step 1: Pre-deploying the Project
 
 Step 2: Deploying to Github / starts at 4:02:00
 > Stop the Dev Server and go to " https://github.com/new " and create a new public repository.
+> Follow the instructions below and run in the terminal:
+      > git init
+      > git commit -m "first commit"
+      > git branch -M main
+      > git remote add origin https://github.com/Cats-Eye-Nebula/Todo-App.git (this is unique)
+      > git push -u origin main
+
+Step 3: Check the github repository by reloading the github current page.
+
+PART X - DEPLOYING THE PROJECT TO VERCEL
+
+Step 1: If not already create an account in vercel for production.
+
+Step 2: Once login in vercel Go to URL " https://vercel.com/new " find the project and click import.
+
+Ste 3: Before deploying make sure to fill in all the necessary information.
+> Environment Variable: Go to the .env file and copy everything and paste in the blank field.
+
+Step 4: Click Deploy and wait till it's completed. Tip: When applying text words dont include any > ' < it will cause errors.
+
+Step 5: Once done visit the vercel domain provided and test the dark/light mode.
+
+Step 6: Visit to Kinde and head to " Settings>applications " then select app "View details" and update the Callback URLs.
+> Copy and paste the vercel URL in both field and add > /api/auth/Kinde/callback < Then save.
+
+Step 7: Go to the project settings and scroll to " Environment variables " and under " KINDE_SITE_URL ", " KINDE_POST_LOGOUT_URL ", AND " KINDE_POST_LOGIN_REDIRECT_URL " replace it wil the vercel url. Tip: Don't include any " / " after the url.
+
+Step 8: Visit Stripe account, Make sure its in Test Mode.
+> Go to: " developers/webhook " and add endpoint. In the field here how it looks like:
+  > Endpoint URL: https://todo-app-swart-sigma-96.vercel.app/api/webhook/stripe
+  > Select Listen to: Events on your account.
+  > Select the following events: checkout.session.completed, invoice.payment_succeeded
+  > Then finally add endpoints.
+> Copy the Signing secret (example): whsec_KfjqiXvALnQx5LpBdbUxFc2w7rkMegcW
+> Go to vercel: Project settings/environment variables and edit by replacing with the secret key in STRIPE_WEBHOOK_SECRET, then save.
+
+Step 9: Redeploy after the changes.
+> Go to Deployments, select the current project and click redeploy. Wait until the process is completed.
+
+Step 10: FIXING ERRORS OF REDIRECTION
+> Go to the .env file add the following:
+  > PRODUCTION_URL=https://todo-app-swart-sigma-96.vercel.app/
+
+> Go the file " Billing page.tsx " update the code in line 70 with:
+  > Code: domainUrl: process.env.NODE_ENV == "production" ? (process.env.PRODUCTION_URL as string) : "http://locahost:3000",
+
+> Go the file " Billing page.tsx " update the code in line 81 with:
+  > Code: return_url: process.env.NODE_ENV === "production" ? (process.env.PRODUCTION_URL as string) : "http://localhost:3000/dashboard",
+
+Step 11: Updating vercel
+> Go to " settings/environment variables " and add the Production url.
