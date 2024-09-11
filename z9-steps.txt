@@ -1,0 +1,372 @@
+information
+
+Youtube Link: https://youtu.be/5dgYg10B9p0?si=HX8chEnscuNp85T2 
+Creator's File: https://github.com/ski043/Marshal-Saas
+Date started: 9/3/2024,9/4/2024, 9/5/2024, 9/6/2024, 9/9/2024
+Timestamp Lesson Stopped: 31:00, 1:00:00, 1:29:45, 2:30:00, 3:13:00
+
+
+PART I - INSTALLATION
+
+Step 1: Create Next App
+> Code: npx create-next-app@latest (name of project | Typescript | ESlint | Tailwind | App Router)
+
+Step 2: Start running Development.
+> Code: npm run dev (Then proceed to localhost:3000)
+
+Step 3: Delete all the Main contents in > app/page.tsx
+
+Step 4: Go to > app/globals.css < and delete everything except the tailwinds.
+
+Step 5: Visit to > ui.shadcn.com/docs < Select framework "nextjs" and implement the steps. (All of the components are found in > components/ui )
+> Code 1: npx shadcn@latest init (Default | Slate | yes)
+> Code 2: npx shadcn@latest add button
+> Code 3: npx shadcn@latest add dropdown-menu
+
+Step 6: Implementing Dark Mode (Make sure to go to documentation when installing) and follow the steps provided.
+> Code 1: npm install next-themes
+> Create a new folder under app folder name "components".
+> Under components folder create a new file name "theme-provider.tsx" then copy and paste the step 2 code from the documentation.
+
+Step 7: Open the file "layout.tsx" root, then copy and paste step 3 code start pasting the code before {children}. As for the code copy only from <ThemeProvider before {children}, also copy the closing : </ThemeProvider>
+
+Step 8: Create a new file in > app/components < name it " Themetoggle.tsx " then copy and paste step 4 code. Find the word " ModeToggle " and replace it with " ThemeToggle " then on the terminal run " npm run dev " to see changes.
+
+Step 9: Go to root "page.tsx" and delete the <h1></h1> and replace the code to render.
+(<div>
+  <ThemeToggle />
+</div>);
+
+Step 10: Create a new file in > app/components < name it "Navbar.tsx". Paste the following custom code>
+import Link from "next/link";
+import { ThemeToggle } from "./Themetoggle";
+import { Button } from "@/components/ui/button";
+
+export function Navbar() {
+  return (
+    <nav className="border-b bg-background h-[10vh] flex items-center">
+      <div className="container flex items-center justify-between">
+        <Link href="/">
+          <h1 className="font-bold text-3xl">Joenapp</h1>
+        </Link>
+
+        <div className="flex items-center gap-x-5">
+          <ThemeToggle />
+
+          <div className="flex items-center gap-x-5">
+            <Button>Sign in</Button>
+            <Button variant="secondary">Sign Up</Button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+
+Step 11: Open file in root name " layout.tsx " and insert " <Navbar /> " before {children}.
+
+PART II - SETTING UP AUTH
+
+Step 1 : Sign in to "Kinde" and select the following: Existing Code | NextJS | Email, Google, Github | No thanks.
+
+Step 2: Click "Docs" in new tab. Select: NextJS | NextJS App Router SDK v2.
+
+Step 3: In the terminal run the code > npm i @kinde-oss/kinde-auth-nextjs <.
+
+Step 4: Set callback URLs. Follow the steps provided by kinde.
+
+Step 5: Configure environment variables
+> Create a root file " .env " then copy and paste the code provided and replace with correct information. In the file " .gitignore " .env " - not to push to github.
+
+Step 6: Set up Kinde Auth Route Handlers
+> Create the file under root app folder: this format> app/api/auth/[kindeAuth]. Then create a file " route.ts " then copy and paste the code provided.
+
+Step 7: Authentication
+> Open File " Navbar.tsx " then copy and paste the code provided right under the import section.
+> Code: import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
+> Then in the Sign in and Sign Up Button wrap it with the rest of the code.
+> Close the port and run " npm run dev ".
+
+Step 8: Create a Folder and file > app/dashboard>page.tsx and paste the following code (this is temporary).
+export default function DashboardPage() {
+  return (
+    <div>
+      <h1>hello from the dashboard</h1>
+    </div>
+  );
+}
+
+Step 9: Go to the Kinde Doc and find the Logout instructions.
+> Open the file " Navbar.tsx " and paste the code below under import section.
+> Code: import {getKindeServerSession} from "@kinde-oss/kinde-auth-nextjs/server";
+> Insert the code right under " export function Navbar() ".
+> Paste this code > const { isAuthenticated} = getKindeServerSession();
+
+Step 8: Replacing the code inside the file " Navbar.tsx "
+> From the following:
+          <div className="flex items-center gap-x-5">
+            <LoginLink>
+              <Button>Sign in</Button>
+            </LoginLink>
+
+            <RegisterLink>
+              <Button variant="secondary">Sign Up</Button>
+            </RegisterLink>
+          </div>
+
+> To the following:
+{(await isAuthenticated()) ? (
+            <Button>Log out</Button>
+          ) : (
+            <div className="flex items-center gap-x-5">
+              <LoginLink>
+                <Button>Sign in</Button>
+              </LoginLink>
+
+              <RegisterLink>
+                <Button variant="secondary">Sign Up</Button>
+              </RegisterLink>
+            </div>
+          )}
+
+From the following:
+export function Navbar()
+
+To the Following:
+export async function Navbar()
+
+Step 9: Logout function - Insert the " LogoutLink " under imports and wrap the Logout Button with the following:
+> Code:  <LogoutLink>
+              <Button>Log out</Button>
+          </LogoutLink>
+
+
+PART IV - MARKETING SITE
+
+Step 1: Go to file > app/page.tsx < and make the following changes:
+> Delete the Themetoggle and add the following code after > return () <.
+> Code is found in line 6:18.
+
+Step 2: Visit https://ui.shadcn.com/themes and choose the color you will use and copy the code. Then go to file > Global.css < and delete everything except tailwinds. Below tailwinds insert the code and check localhost.
+
+Step 3: Go to file > app/page.tsx < and insert the following code after the span tags.
+> Code: Create a heading.
+        <h1 className="mt-8 text-3xl font-extrabold tracking-tight lg:text-6xl">
+          Create notes with ease
+        </h1>
+> Code: Create a description under heading and style it.
+        <p className="max-w-xl mx-auto mt-8 text-base lg:text-xl text-secondary-foreground">
+
+> Code: Creating a sign up button below. Line 26:30
+
+Step 4: Making the Sign up button work.
+> Go to file > app/components/navbar.tsx < and copy the code from Line 4:8 and paste it to the file > app/page.tsx < under imports.
+> Wrap the sign up button with Register link.
+
+PART V - CREATE DASHBOARD 
+
+Step 1: Create a file in the folder > app/dashboard < and name it " layout.tsx " and populate it, contains sidebar and body (aside and Main).
+
+Step 2: Create a file in the folder > components < and name it " DashboardNav.tsx "
+
+Step 3: Go to file > app/dashboard/layout.tsx < and replace line 9 with <DashboardNav />
+
+Step 4: Go to file > app/components/DashboardNav.tsx < and replace <h1> with new code.
+
+Step 5: Go to file > app/components/Navbar.tsx < and correct the Logo in line 18 and add some styling.
+> Code: Joen<span className="text-primary">App</span>
+
+Step 6: Create a file in the folder > app/components < and name it " UserNav.tsx ".
+
+Step 7: Visit https://ui.shadcn.com/docs/components/avatar and copy the npm version code.
+> Close the dev port. Paste the code and run. Open the dev port again.
+> Open the code and copy the src sample image from shadcn.
+
+Step 8: Go to file > app/components/Navbar.tsx < and delete and replace line 25 with code: <UserNav /> and add some styling.
+
+Step 9: Go to file > app/components/UserNav.tsx < and add some styling in line 12 Avatar button.
+> Add a Dropdown Menu in line 20 and style the dropdowns.
+> Import the " DropdownMenuSeparator ".
+
+Step 10: Go to file > app/components/DashboardNav.tsx < and cut the code line 8:12
+> Code: export const navItems = [
+          { name: "Home", href: "/dashboard", icon: Home },
+          { name: "Settings", href: "/dashboard/settings", icon: Settings },
+          { name: "Billing", href: "/dashboard/billing", icon: CreditCard },
+        ];
+
+> Paste the code into file > app/components/UserNav.tsx < under import section and update by importing Lucide on icons.
+> Back to file > app/components/DashboardNav.tsx < update the " navItems " import from "/UserNav "
+
+Step 11: Go to file > app/components/UserNav.tsx < and add span code in line 52 (to add dropdown string: Home, Billing, setting, under avatar icon).
+> Change the code in line 49 by modifying into " justify-between "
+
+Step 12: Adding Logout.
+>Go to file: > app/components/UserNav.tsx <, under line 58 " </DropdownMenuGroup> " add the <DropdownMenuSeparator /> code.
+
+>Making the Logout Button work: Go to file > app/components/Navbar.tsx < copy the logout import from line 4:8 (delete the sign in and register) and paste it in file > app/components/UserNav.tsx < under the import section.
+
+Step 13: In file > app/components/UserNav.tsx < render the Logout Button.
+> In line 66 replace <Div> and wrap the button with <LogoutLink>
+
+Step 14: Go to file > app/components/Navbar.tsx < add code in line 14
+> In file > app/components/UserNav.tsx < line 24 add the code line 25:31
+> Back to file > app/components/Navbar.tsx < in line 28 update the code and add line 29:31
+
+Step 15: Go to file  > app/components/UserNav.tsx < in line 38, 46, and 48 replace the name, email and image with a dynamic one.
+
+PART VI - BUILDING YOUR DATABASE WITH SUPABASE AND PRISMA.
+
+Step 1: Go to Supabase and set it up in the " .env " file.
+> Replace line " Database URL " to an actual info from supabase.
+
+Step 2: Step up Prisma.
+> Go to terminal Close the dev port  and run > npm i -D prisma
+> After complete run, next run the code > npm i @prisma/client
+> After complete run, next run the code > npx prisma init
+
+Step 3: Go to file  > prisma/schema.prisma < add the code in line 13:19
+> Then run the code > npx prisma db push
+
+Step 4: Go to file " .env " and remove " :5432/postgres "
+> Run Dev : " npm run dev "
+
+Step 5: Google " Prisma Nextjs Best Practices " and select " https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices "
+> Under Solution copy the code.
+> Create a Folder and file in  > app/components/lib/db.ts < then paste the copied code inside db.ts file.
+
+Step 6: Go to file > app/components/Navbar.tsx < copy the code in line 9 and paste it to  " app/page.tsx " under import section.
+> In " app/page.tsx " add/update the codes in line 8:13
+
+Step 7: Making Dashboard visible only to login user.
+> In " app/page.tsx " copy the code in line 5.
+> Go to file > app/dashboard/layout.tsx < and paste the code under the import section.
+> Add/Update the code in line 6:15
+
+Step 8: Run the code > npx prisma studio
+> Localhost 5555 will open in the browser.
+
+Step 9: Go to file > app/dashboard/layout.tsx <
+> add the code under import section " prisma lib " and add the code from line 7:40
+> Close and Clear both Dev and Prisma Ports.
+>  Go to Kinde User and delete the user.
+> Add the code in line 52:58
+> Run dev and prisma ports
+
+Step 10: Update .env and schema.prisma information
+> Google Supabase and prisma integrations or this url" " https://supabase.com/partners/integrations/prisma " and follow the instructions in " Step 1: Get the connection string from Supabase project settings "
+> Remember: Database URL is set to transaction mode and Direct URL is set to session.
+> Go to file and paste it " .env " see line 10:12
+> Go to file " schema.prisma " and add the direct url see line 11.
+> Go to Kinde, Prisma, and Supabase and delete all users, restart dev and sign up again.
+> Check all three and make sure there is 1 user (the one you signed up).
+> Test Login and Logout.
+
+
+PART VII - SETTING UP THE " SETTINGS " PAGE 
+
+Step 1: Create a new folder and file to > app/components/dashboard/settings/page.tsx <
+
+Step 2: Go to ui.shadcn.com and search for the card, label, input, and select component and copy the npm card code and run in terminal.
+> Start adding the code for the Settings from start to end.
+> Import prisma and getKindeServerSession under the import section.
+> add async function code after the imports section.
+
+Step 3: Create a new file to > app/components/Submitbuttons.tsx < and add the code.
+
+Step 4: Coding the Color Themes.
+> Go to file " app/layout.tsx " and " app/global.css ".
+> In file "Global.css" delete the layer base code, then copy and paste the copied code.
+> In file "layout.tsx" Update the code to reflect the themes in line 21 and the rest.
+> Got to the settings page " app/dashboard/settings/page.tsx " and update the code reflecting the Color Themes in line 62 using "revalidatepath".
+
+
+PART VIII - SETTING UP THE " BILLINGS " PAGE
+
+Step 1: Create a new folder and file to > app/components/dashboard/billing/page.tsx <
+
+Step 2: Add all the Codes and styling.
+
+Step 3: Go to stripe account, Make it a test mode.
+> Go to Developers then API Keys, copy the secret key.
+> Go to the .env file and paste it last.
+> Go to the Product Catalog, then add a product, next copy and paste the price key.
+
+Step 4: Implementing Stripe.
+> Stop both dev and prisma servers then run the code > npm i stripe (server approach)
+> Create a new file > app/lib/stripe.ts < then add the codes.
+> Go to the " .env " file and add " STRIPE_SECRET_KEY = (secret key).
+> Run the dev and prisma studio server and test (make sure to check customerId has been filled in with data in the studio)
+
+Step 5: Fetch the data
+> Go to " schema.prisma " and update the code in line 20:34
+> Stop the Dev server and run code > npx prisma db push (make sure its success)
+> Run the dev server.
+> Go to the " Billing page " and add/update the code
+> Go to the "Navbar.tsx"  and import the > getKindeServerSession < and paste it in the import section of " Billing Page " and update the code.
+> Tip: Whenever there are changes in the ".env" file stop the dev server and restart.
+> Go to " Submitbuttons.tsx " and add the export function code.
+> Back to file "Billing Page" update the code in line 84
+> Save everything and test localhost. > Expected Error: "Error: Cannot read properties of null (reading 'user')" <
+> To fix the error add the code and update the file in line 44:58
+
+Step 6: Adding Cancelled and Success Payments
+> Create a page "payment/cancelled" page by creating a new folder and page > app/payment/cancelled/page.tsx < and > app/payment/success/page.tsx <
+
+> Add the codes in both pages. Tip: Make the page only when logged in.
+
+Step 7: Adding already subscribed subscription.
+> Create a file into > app/api/webhook/stripe/route.ts <
+> Add the necessary code.
+> Go to file " .env " and add the code in line 23
+> Get the Webhook Key by going to stripe, click the "developers" then go to "Webhooks" and select " test in local environment "
+> Download and install the Stripe CLI and follow the instructions.
+> Go back to stripe and Click " transactions " and Click Refund.
+> Run the code " npx prisma studio " and click the plus + sign and check the subscription to make sure the data is available.
+
+Step 8: Adding more information to the Billing page
+> Add the code in line 66:---
+> Go to file "Submitbuttons.tsx" file and add the code in line 44:60
+> After the code run the localhost (You will get an error when clicking view payments).
+> To solve this copy the link and go to " https://dashboard.stripe.com/test/settings/billing/portal" and click save then refresh the localhost page, check if everything works.
+
+
+PART IX - SETTING UP THE " DASHBOARD " PAGE
+
+Step 1: Adding codes to file " prisma.schema " in line 36
+> Add the extension " prisma "
+> Close all port server and run the prisma studio " npx prisma db push " and reload dev server.
+
+Step 2: Building the dashboard page
+> Go to file: > app/dashboard/page.tsx < and delete the div stuff and replace it with new elements.
+
+Step 3: Creating the Note page
+> Create the new folder and file > app/dashboard/new/page.tsx <
+> add all the codes.
+
+Step 4: Go to Shadcn, import and run the following code component: textarea,
+
+Step 5: Go back to the "Dashboard page.tsx" and update the code in line 57
+
+Step 6: Create the new folder and file > app/dashboard/new/[id]/page.tsx <
+> Tip: [id] is informing Nextjs that it is a dynamic variable.
+> Fill in with the necessary code by copying some from "New page.tsx" then import everything, next delete the form "action".
+
+Step 7: Only with active subscription can create a note.
+> Go to page " app/dashboard/page.tsx " and update the code.
+
+PART X - DEPLOYING THE PROJECT
+
+Step 1: Pre-deploying the Project
+> Go the the " Setting Page.tsx" update the code in line 24 (Next Cache) the import section the NoStore, then copy.
+> Go to the " app/dashboard/layout.tsx " and paste and update the code in the import section.
+> Go to the " app/dashboard/page.tsx " and paste and update the code in the import section.
+> Go to the " app/dashboard/new/page.tsx " and paste and update the code in the import section.
+> Go to the " app/dashboard/[id]/page.tsx " and paste and update the code in the import section.
+> Go to the " app/dashboard/billing/page.tsx " and paste and update the code in the import section.
+> Go to the " app/layout.tsx " and paste and update the code in the import section.
+> Go to the " package.json " file and add the "postinstall: prisma generate" code.
+
+Step 2: Deploying to Github / starts at 4:02:00
+> Stop the Dev Server and go to " https://github.com/new " and create a new public repository.
